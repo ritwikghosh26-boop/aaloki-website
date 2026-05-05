@@ -123,8 +123,32 @@ export function CartDrawer() {
 
               if (result.success) {
                 toast.success("Payment successful! We'll confirm via WhatsApp 🕯️");
+
+                // Snapshot before clearCart wipes the state
+                const cartItems = items
+                  .map(({ product, quantity }) =>
+                    "- " + product.name + " x" + quantity + " - Rs." + (product.price * quantity)
+                  )
+                  .join("\n");
+                const total = totalPrice;
+                const paymentId = response.razorpay_payment_id;
+
                 clearCart();
                 closeCart();
+
+                setTimeout(() => {
+                  const message =
+                    "New Aaloki order received!\n\nItems:\n" +
+                    cartItems +
+                    "\n\nTotal: Rs." + total +
+                    "\n\nPayment ID: " + paymentId +
+                    "\n\nPlease contact customer to confirm delivery address.";
+                  window.open(
+                    "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(message),
+                    "_blank"
+                  );
+                }, 1500);
+
                 resolve();
               } else {
                 toast.error("Payment failed. Please try ordering via WhatsApp instead.");
