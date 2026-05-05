@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npx tsc *)",
+      "Bash(node -e ' *)",
+      "Bash(node --input-type=module)",
+      "Bash(npx next *)",
+      "Bash(powershell -c \"\\(Get-Item 'C:\\\\Users\\\\ritwi\\\\Downloads\\\\AALOKI\\\\Aaloki Logo\\\\aaloki_logo_v2.svg'\\).Length\")",
+      "Bash(New-Item -ItemType Directory -Force -Path \"C:\\\\WEB PROJECTS\\\\aaloki-website\\\\aaloki-website\\\\src\\\\app\\\\product\\\\[slug]\")",
+      "Bash(Out-Null)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "mcp__Claude_in_Chrome__browser_batch",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"C:\\\\WEB PROJECTS\\\\aaloki-website\\\\aaloki-website\\\\src\\\\app\\\\api\\\\razorpay\\\\create-order\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"C:\\\\WEB PROJECTS\\\\aaloki-website\\\\aaloki-website\\\\src\\\\app\\\\api\\\\razorpay\\\\verify\")",
+      "PowerShell(\"ok\")"
+    ]
+  }
+}
