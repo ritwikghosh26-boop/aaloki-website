@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { categories } from "@/lib/products";
 import type { Product, Category } from "@/lib/products";
+import { cn } from "@/lib/utils";
 
 type SortKey = "featured" | "price-asc" | "price-desc";
 
@@ -67,30 +68,13 @@ export function ShopClient({ products }: ShopClientProps) {
                     onClick={() =>
                       setParam("category", tab === "All" ? null : tab)
                     }
-                    className="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-150 whitespace-nowrap"
-                    style={
+                    className={cn(
+                      "shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-150 whitespace-nowrap",
+                      "hover:bg-[var(--terracotta)] hover:text-white",
                       isActive
-                        ? {
-                            backgroundColor: "var(--terracotta)",
-                            color: "#fff",
-                          }
-                        : {
-                            backgroundColor: "var(--ivory)",
-                            color: "var(--sienna)",
-                          }
-                    }
-                    onMouseEnter={(e) => {
-                      if (!isActive)
-                        e.currentTarget.style.backgroundColor =
-                          "var(--terracotta)";
-                      if (!isActive) e.currentTarget.style.color = "#fff";
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!isActive)
-                        e.currentTarget.style.backgroundColor = "var(--ivory)";
-                      if (!isActive)
-                        e.currentTarget.style.color = "var(--sienna)";
-                    }}
+                        ? "bg-[var(--terracotta)] text-white"
+                        : "bg-[var(--ivory)] text-[var(--sienna)]"
+                    )}
                   >
                     {tab}
                   </button>
@@ -130,7 +114,7 @@ export function ShopClient({ products }: ShopClientProps) {
             {filtered.length}
           </span>{" "}
           {filtered.length === 1 ? "product" : "products"}
-          {activeCategory && (
+          {activeCategory ? (
             <>
               {" "}in{" "}
               <span
@@ -140,7 +124,7 @@ export function ShopClient({ products }: ShopClientProps) {
                 {activeCategory}
               </span>
             </>
-          )}
+          ) : null}
         </p>
 
         {/* Empty state */}

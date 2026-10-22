@@ -4,17 +4,21 @@ import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 
 const SESSION_KEY = "aaloki_exit_popup_seen";
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type Phase = "idle" | "visible" | "success";
 
 export function ExitPopup() {
   const [phase, setPhase] = useState<Phase>("idle");
+  const phaseRef = useRef<Phase>("idle");
   const emailRef = useRef<HTMLInputElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   function show() {
     if (sessionStorage.getItem(SESSION_KEY)) return;
-    if (phase !== "idle") return;
+    if (phaseRef.current !== "idle") return;
     setPhase("visible");
   }
 
@@ -24,15 +28,36 @@ export function ExitPopup() {
     if (timerRef.current) clearTimeout(timerRef.current);
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const email = emailRef.current?.value.trim() ?? "";
     if (!email) return;
-    console.log("[ExitPopup] email captured:", email);
-    sessionStorage.setItem(SESSION_KEY, "1");
-    setPhase("success");
-    timerRef.current = setTimeout(() => setPhase("idle"), 3000);
+    if (!EMAIL_RE.test(email)) {
+      setSubmitError("Please enter a valid email address.");
+      return;
+    }
+    setIsSubmitting(true);
+    setSubmitError(null);
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) throw new Error("subscribe_failed");
+      sessionStorage.setItem(SESSION_KEY, "1");
+      setPhase("success");
+      timerRef.current = setTimeout(() => setPhase("idle"), 3000);
+    } catch {
+      setSubmitError("Something went wrong — please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
+
+  useEffect(() => {
+    phaseRef.current = phase;
+  }, [phase]);
 
   useEffect(() => {
     if (sessionStorage.getItem(SESSION_KEY)) return;
@@ -84,10 +109,8 @@ export function ExitPopup() {
         {/* Close button */}
         <button
           onClick={dismiss}
-          className="absolute top-4 right-4 z-10 p-1.5 rounded-full transition-colors"
-          style={{ color: "var(--sienna)", backgroundColor: "var(--ivory)" }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "oklch(0.9 0 0)")}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--ivory)")}
+          className="absolute top-4 right-4 z-10 p-1.5 rounded-full transition-colors bg-[var(--ivory)] hover:bg-[oklch(0.9_0_0)]"
+          style={{ color: "var(--sienna)" }}
           aria-label="Close"
         >
           <X className="size-4" />
@@ -149,14 +172,18 @@ export function ExitPopup() {
                 />
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-opacity active:scale-[0.98]"
+                  disabled={isSubmitting}
+                  className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-[0.88] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
                   style={{ backgroundColor: "var(--terracotta)" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.88")}
-                  onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
                 >
-                  Get 10% Off 🎁
+                  {isSubmitting ? "Sending…" : "Get 10% Off 🎁"}
                 </button>
               </form>
+              {submitError ? (
+                <p className="text-xs text-center mt-2" style={{ color: "#e85d2f" }}>
+                  {submitError}
+                </p>
+              ) : null}
 
               {/* Skip link */}
               <p className="text-center mt-4">

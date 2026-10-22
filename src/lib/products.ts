@@ -414,3 +414,14 @@ export function getProductsByCategory(category: Category): Product[] {
 export function getProductBySlug(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug);
 }
+
+export type CategoryStyle = { bg: string; tagBg: string; tagColor: string };
+
+export const CATEGORY_STYLES: Record<Category, CategoryStyle> = {
+  Sachets:     { bg: "linear-gradient(140deg,#fdf0f8 0%,#f5dff0 100%)", tagBg: "#f5dff0", tagColor: "var(--mauve)" },
+  Decorative:  { bg: "linear-gradient(140deg,#fdf0ea 0%,#f5dfd0 100%)", tagBg: "#f5dfd0", tagColor: "var(--terracotta)" },
+  Novelty:     { bg: "linear-gradient(140deg,#fdf8ec 0%,#f5edd0 100%)", tagBg: "#f5edd0", tagColor: "var(--gold)" },
+  Statement:   { bg: "linear-gradient(140deg,#f7eeea 0%,#edddd5 100%)", tagBg: "#edddd5", tagColor: "var(--sienna)" },
+  "Gift Sets": { bg: "linear-gradient(140deg,#f5eef8 0%,#e8d5f0 100%)", tagBg: "#e8d5f0", tagColor: "var(--mauve)" },
+  Others:      { bg: "linear-gradient(140deg,#edf5f8 0%,#d5e8f0 100%)", tagBg: "#d5e8f0", tagColor: "#3b7a8b" },
+};

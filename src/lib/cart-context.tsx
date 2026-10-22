@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useMemo,
   useState,
 } from "react";
 import type { Product } from "@/lib/products";
@@ -70,21 +71,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     0
   );
 
+  const openCart  = useCallback(() => setIsOpen(true),  []);
+  const closeCart = useCallback(() => setIsOpen(false), []);
+
+  const value = useMemo(
+    () => ({
+      items,
+      addItem,
+      removeItem,
+      updateQuantity,
+      clearCart,
+      totalItems,
+      totalPrice,
+      isOpen,
+      openCart,
+      closeCart,
+    }),
+    [items, addItem, removeItem, updateQuantity, clearCart, totalItems, totalPrice, isOpen, openCart, closeCart]
+  );
+
   return (
-    <CartContext.Provider
-      value={{
-        items,
-        addItem,
-        removeItem,
-        updateQuantity,
-        clearCart,
-        totalItems,
-        totalPrice,
-        isOpen,
-        openCart: () => setIsOpen(true),
-        closeCart: () => setIsOpen(false),
-      }}
-    >
+    <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>
   );

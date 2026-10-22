@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 import { useCart } from "@/lib/cart-context";
+import { CATEGORY_STYLES } from "@/lib/products";
 import type { Product, Category } from "@/lib/products";
 import { waUrl } from "@/lib/wa";
 import { cn } from "@/lib/utils";
@@ -14,17 +15,6 @@ const WA_ICON = (
   </svg>
 );
 
-const CATEGORY_STYLES: Record<
-  Category,
-  { bg: string; tagBg: string; tagColor: string }
-> = {
-  Sachets:     { bg: "linear-gradient(140deg,#fdf0f8 0%,#f5dff0 100%)", tagBg: "#f5dff0", tagColor: "var(--mauve)" },
-  Decorative:  { bg: "linear-gradient(140deg,#fdf0ea 0%,#f5dfd0 100%)", tagBg: "#f5dfd0", tagColor: "var(--terracotta)" },
-  Novelty:     { bg: "linear-gradient(140deg,#fdf8ec 0%,#f5edd0 100%)", tagBg: "#f5edd0", tagColor: "var(--gold)" },
-  Statement:   { bg: "linear-gradient(140deg,#f7eeea 0%,#edddd5 100%)", tagBg: "#edddd5", tagColor: "var(--sienna)" },
-  "Gift Sets": { bg: "linear-gradient(140deg,#f5eef8 0%,#e8d5f0 100%)", tagBg: "#e8d5f0", tagColor: "var(--mauve)" },
-  Others:      { bg: "linear-gradient(140deg,#edf5f8 0%,#d5e8f0 100%)", tagBg: "#d5e8f0", tagColor: "#3b7a8b" },
-};
 
 interface ProductCardProps {
   product: Product;
@@ -45,7 +35,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
       style={{ backgroundColor: "var(--ivory)" }}
     >
       {/* Badge */}
-      {product.badge && (
+      {product.badge ? (
         <div
           className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-white"
           style={{
@@ -55,7 +45,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         >
           {product.badge}
         </div>
-      )}
+      ) : null}
 
       {/* Emoji display — category-tinted background */}
       <Link
@@ -144,10 +134,8 @@ export function ProductCard({ product, className }: ProductCardProps) {
               addItem(product);
               toast.success("Added to cart", { description: product.name });
             }}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity active:scale-95"
+            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-[0.88] active:scale-95"
             style={{ backgroundColor: "var(--terracotta)" }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.88")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
           >
             <ShoppingBag className="size-3.5" />
             Add to Cart
@@ -158,10 +146,8 @@ export function ProductCard({ product, className }: ProductCardProps) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Order via WhatsApp"
-            className="flex items-center justify-center w-11 rounded-xl text-white transition-opacity active:scale-95 shrink-0"
+            className="flex items-center justify-center w-11 rounded-xl text-white transition-opacity hover:opacity-[0.88] active:scale-95 shrink-0"
             style={{ backgroundColor: "#25D366" }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.88")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
           >
             {WA_ICON}
           </a>

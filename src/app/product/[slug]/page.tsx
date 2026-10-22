@@ -5,22 +5,12 @@ import {
   products,
   getProductBySlug,
   getProductsByCategory,
+  CATEGORY_STYLES,
 } from "@/lib/products";
 import type { Category } from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductActions } from "./ProductActions";
 
-const CATEGORY_STYLES: Record<
-  Category,
-  { bg: string; tagBg: string; tagColor: string }
-> = {
-  Sachets:     { bg: "linear-gradient(140deg,#fdf0f8 0%,#f5dff0 100%)", tagBg: "#f5dff0", tagColor: "var(--mauve)" },
-  Decorative:  { bg: "linear-gradient(140deg,#fdf0ea 0%,#f5dfd0 100%)", tagBg: "#f5dfd0", tagColor: "var(--terracotta)" },
-  Novelty:     { bg: "linear-gradient(140deg,#fdf8ec 0%,#f5edd0 100%)", tagBg: "#f5edd0", tagColor: "var(--gold)" },
-  Statement:   { bg: "linear-gradient(140deg,#f7eeea 0%,#edddd5 100%)", tagBg: "#edddd5", tagColor: "var(--sienna)" },
-  "Gift Sets": { bg: "linear-gradient(140deg,#f5eef8 0%,#e8d5f0 100%)", tagBg: "#e8d5f0", tagColor: "var(--mauve)" },
-  Others:      { bg: "linear-gradient(140deg,#edf5f8 0%,#d5e8f0 100%)", tagBg: "#d5e8f0", tagColor: "#3b7a8b" },
-};
 
 const TRUST_BADGES = [
   { icon: "🤲", label: "Handcrafted" },
@@ -117,7 +107,7 @@ export default async function ProductPage({
               className="relative rounded-3xl overflow-hidden"
               style={{ background: catStyle.bg }}
             >
-              {product.badge && (
+              {product.badge ? (
                 <div
                   className="absolute top-4 left-4 z-10 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-white"
                   style={{
@@ -129,15 +119,15 @@ export default async function ProductPage({
                 >
                   {product.badge}
                 </div>
-              )}
-              {discount && (
+              ) : null}
+              {discount ? (
                 <div
                   className="absolute top-4 right-4 z-10 px-2.5 py-1.5 rounded-full text-xs font-bold text-white tabular-nums"
                   style={{ backgroundColor: "var(--gold)" }}
                 >
                   -{discount}%
                 </div>
-              )}
+              ) : null}
               <div className="h-72 sm:h-96 lg:h-[500px] flex items-center justify-center">
                 <span className="text-[8rem] sm:text-[10rem] lg:text-[12rem] select-none drop-shadow-lg">
                   {product.emoji}
@@ -200,7 +190,7 @@ export default async function ProductPage({
               >
                 ₹{product.price}
               </span>
-              {product.oldPrice && (
+              {product.oldPrice ? (
                 <>
                   <span
                     className="text-xl line-through tabular-nums"
@@ -215,7 +205,7 @@ export default async function ProductPage({
                     {discount}% off
                   </span>
                 </>
-              )}
+              ) : null}
             </div>
 
             {/* Description */}

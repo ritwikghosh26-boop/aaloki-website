@@ -141,8 +141,9 @@ function TrustBar() {
 const FEATURED_IDS = ["STM-002", "GFT-001", "DEC-002", "DEC-007", "SAC-001", "NOV-004"];
 
 function FeaturedProducts() {
+  const productMap = new Map(products.map((p) => [p.id, p]));
   const featured = FEATURED_IDS
-    .map((id) => products.find((p) => p.id === id))
+    .map((id) => productMap.get(id))
     .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   return (
@@ -369,9 +370,9 @@ function GiftSetsPreview() {
                   <span className="text-3xl font-semibold tabular-nums" style={{ fontFamily: "var(--font-display), Georgia, serif", color: tier.featured ? "var(--gold)" : "var(--terracotta)" }}>
                     {tier.price}
                   </span>
-                  {tier.unit && (
+                  {tier.unit ? (
                     <span className="text-sm" style={{ color: tier.featured ? "rgba(245,239,230,0.55)" : "var(--muted-foreground)" }}>{tier.unit}</span>
-                  )}
+                  ) : null}
                 </div>
                 <a
                   href={waUrl(`Hi! I'm interested in the "${tier.name}" gift set (${tier.price}). Please share more details 🎁`)}

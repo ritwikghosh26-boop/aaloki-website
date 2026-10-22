@@ -11,8 +11,14 @@ import { Providers } from "@/components/Providers";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
-import { CartDrawer } from "@/components/CartDrawer";
-import { ExitPopup } from "@/components/ExitPopup";
+import dynamic from "next/dynamic";
+
+const CartDrawer = dynamic(() =>
+  import("@/components/CartDrawer").then((m) => ({ default: m.CartDrawer }))
+);
+const ExitPopup = dynamic(() =>
+  import("@/components/ExitPopup").then((m) => ({ default: m.ExitPopup }))
+);
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -91,7 +97,6 @@ export default function RootLayout({
                 height: "auto",
                 mixBlendMode: "multiply",
               }}
-              priority
             />
           </div>
         </div>
