@@ -8,6 +8,8 @@ import { CATEGORY_STYLES } from "@/lib/products";
 import type { Product, Category } from "@/lib/products";
 import { waUrl } from "@/lib/wa";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { Tilt3D } from "@/components/animations";
 
 const WA_ICON = (
   <svg viewBox="0 0 24 24" fill="currentColor" className="size-4" aria-hidden="true">
@@ -26,13 +28,14 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const catStyle = CATEGORY_STYLES[product.category];
 
   return (
-    <article
+    <Tilt3D intensity={9} scale={1.02} className={className}>
+    <motion.article
       className={cn(
-        "group relative flex flex-col rounded-2xl overflow-hidden",
-        "transition-all duration-300 hover:shadow-2xl hover:-translate-y-1.5",
-        className
+        "group relative flex flex-col rounded-2xl overflow-hidden h-full"
       )}
       style={{ backgroundColor: "var(--ivory)" }}
+      whileHover={{ boxShadow: "0 24px 48px rgba(92,26,0,0.14)" }}
+      transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       {/* Badge */}
       {product.badge ? (
@@ -134,8 +137,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
               addItem(product);
               toast.success("Added to cart", { description: product.name });
             }}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-[0.88] active:scale-95"
-            style={{ backgroundColor: "var(--terracotta)" }}
+            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 bg-terracotta border border-terracotta hover:bg-transparent hover:text-terracotta active:scale-95 cursor-pointer"
           >
             <ShoppingBag className="size-3.5" />
             Add to Cart
@@ -146,13 +148,13 @@ export function ProductCard({ product, className }: ProductCardProps) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Order via WhatsApp"
-            className="flex items-center justify-center w-11 rounded-xl text-white transition-opacity hover:opacity-[0.88] active:scale-95 shrink-0"
-            style={{ backgroundColor: "#25D366" }}
+            className="flex items-center justify-center w-11 rounded-xl text-white transition-all duration-200 bg-[#25D366] border border-[#25D366] hover:bg-transparent hover:text-[#25D366] active:scale-95 shrink-0 cursor-pointer"
           >
             {WA_ICON}
           </a>
         </div>
       </div>
-    </article>
+    </motion.article>
+    </Tilt3D>
   );
 }

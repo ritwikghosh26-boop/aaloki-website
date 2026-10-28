@@ -5,6 +5,8 @@ import Image from "next/image";
 import { ShoppingBag } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { waUrl } from "@/lib/wa";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const NAV_LINKS = [
   { href: "/shop", label: "Shop" },
@@ -14,17 +16,30 @@ const NAV_LINKS = [
 
 export function Navbar() {
   const { totalItems, openCart } = useCart();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header
+    <motion.header
       className="fixed top-0 inset-x-0 z-40 border-b"
-      style={{
-        backgroundColor: "color-mix(in srgb, var(--cream) 95%, transparent)",
-        backdropFilter: "blur(8px)",
-        borderColor: "var(--ivory)",
+      animate={{
+        backgroundColor: scrolled
+          ? "rgba(250,246,240,0.97)"
+          : "rgba(250,246,240,0.82)",
+        borderColor: scrolled ? "rgba(245,239,230,1)" : "rgba(245,239,230,0.5)",
+        boxShadow: scrolled
+          ? "0 4px 32px rgba(92,26,0,0.06)"
+          : "none",
       }}
+      transition={{ duration: 0.3 }}
+      style={{ backdropFilter: "blur(12px)" }}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4" role="navigation">
         {/* ── Logo ── */}
         <Link
           href="/"
@@ -68,14 +83,7 @@ export function Navbar() {
             href={waUrl("Hi Aaloki! I found you on your website.")}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:flex items-center gap-1.5 text-white text-xs font-semibold px-3.5 py-2 rounded-full transition-colors"
-            style={{ backgroundColor: "#25D366" }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.backgroundColor = "#1DAA53")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.backgroundColor = "#25D366")
-            }
+            className="hidden sm:flex items-center gap-1.5 text-white text-xs font-semibold px-3.5 py-2 rounded-full transition-all duration-200 bg-[#25D366] border border-[#25D366] hover:bg-transparent hover:text-[#25D366]"
           >
             {/* Inline WhatsApp icon */}
             <svg
@@ -114,6 +122,6 @@ export function Navbar() {
           </button>
         </div>
       </nav>
-    </header>
+    </motion.header>
   );
 }
