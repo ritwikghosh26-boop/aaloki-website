@@ -31,10 +31,13 @@ export function ProductCard({ product, className }: ProductCardProps) {
     <Tilt3D intensity={9} scale={1.02} className={className}>
     <motion.article
       className={cn(
-        "group relative flex flex-col rounded-2xl overflow-hidden h-full"
+        "group relative flex flex-col rounded-2xl overflow-hidden h-full card-top-accent"
       )}
-      style={{ backgroundColor: "var(--ivory)" }}
-      whileHover={{ boxShadow: "0 24px 48px rgba(92,26,0,0.14)" }}
+      style={{
+        backgroundColor: "var(--ivory)",
+        boxShadow: "0 2px 12px rgba(92,26,0,0.06)",
+      }}
+      whileHover={{ boxShadow: "0 24px 56px rgba(92,26,0,0.16)" }}
       transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       {/* Badge */}
@@ -58,12 +61,28 @@ export function ProductCard({ product, className }: ProductCardProps) {
         aria-hidden="true"
       >
         <div
-          className="h-48 flex items-center justify-center"
+          className="h-56 flex items-center justify-center relative"
           style={{ background: catStyle.bg }}
         >
+          {/* Subtle radial glow behind emoji */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: "radial-gradient(ellipse 55% 55% at 50% 55%, rgba(255,255,255,0.45) 0%, transparent 70%)",
+            }}
+          />
+          {/* Subtle dot-grid pattern overlay */}
+          <div
+            className="absolute inset-0 pointer-events-none opacity-[0.06]"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle, var(--sienna) 1px, transparent 1px)",
+              backgroundSize: "18px 18px",
+            }}
+          />
           <span
             key={product.id}
-            className="text-7xl select-none transition-transform duration-500 group-hover:scale-110 drop-shadow"
+            className="text-8xl select-none transition-transform duration-500 group-hover:scale-110 drop-shadow-lg relative z-10"
             role="img"
             aria-label={product.name}
           >
@@ -71,16 +90,16 @@ export function ProductCard({ product, className }: ProductCardProps) {
           </span>
         </div>
         <div
-          className="absolute bottom-0 inset-x-0 h-8 pointer-events-none"
-          style={{ background: "linear-gradient(to top, var(--ivory), transparent)" }}
+          className="absolute bottom-0 inset-x-0 h-12 pointer-events-none"
+          style={{ background: "linear-gradient(to top, var(--ivory) 20%, transparent)" }}
         />
       </Link>
 
       {/* Content */}
-      <div className="flex flex-col flex-1 px-4 pt-3 pb-4 gap-1.5">
+      <div className="flex flex-col flex-1 px-5 pt-4 pb-5 gap-2">
         {/* Brand name */}
         <p
-          className="text-[10px] font-semibold tracking-[0.22em] uppercase"
+          className="text-[9px] font-bold tracking-[0.28em] uppercase"
           style={{ color: "var(--gold)" }}
         >
           {product.brandName}
@@ -89,10 +108,11 @@ export function ProductCard({ product, className }: ProductCardProps) {
         {/* Product name */}
         <Link href={`/product/${product.slug}`} className="block">
           <h3
-            className="text-[1.1rem] leading-snug hover:underline decoration-1 underline-offset-2"
+            className="text-[1.15rem] leading-tight hover:underline decoration-1 underline-offset-2"
             style={{
               fontFamily: "var(--font-display), Georgia, serif",
               color: "var(--sienna)",
+              fontWeight: 500,
             }}
           >
             {product.name}
@@ -102,25 +122,25 @@ export function ProductCard({ product, className }: ProductCardProps) {
         {/* Category tag + dimensions */}
         <div className="flex items-center gap-2 flex-wrap">
           <span
-            className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+            className="text-[9px] font-semibold px-2.5 py-0.5 rounded-full"
             style={{ backgroundColor: catStyle.tagBg, color: catStyle.tagColor }}
           >
             {product.category}
           </span>
-          <span className="text-[10px] text-muted-foreground tabular-nums">
+          <span className="text-[9px] text-muted-foreground tabular-nums">
             {product.dimensions}
           </span>
         </div>
 
         {/* Description */}
-        <p className="text-xs leading-relaxed text-muted-foreground line-clamp-2 mt-0.5">
+        <p className="text-[11px] leading-relaxed text-muted-foreground line-clamp-2">
           {product.description}
         </p>
 
         {/* Price row */}
-        <div className="flex items-baseline gap-2 mt-auto pt-2">
+        <div className="flex items-baseline gap-1.5 mt-auto pt-2 border-t" style={{ borderColor: "rgba(160,120,48,0.12)" }}>
           <span
-            className="text-xl font-semibold tabular-nums"
+            className="text-2xl font-semibold tabular-nums"
             style={{
               fontFamily: "var(--font-display), Georgia, serif",
               color: "var(--sienna)",
@@ -128,6 +148,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           >
             ₹{product.price}
           </span>
+          <span className="text-[10px] text-muted-foreground">incl. taxes</span>
         </div>
 
         {/* CTA buttons */}
@@ -137,9 +158,9 @@ export function ProductCard({ product, className }: ProductCardProps) {
               addItem(product);
               toast.success("Added to cart", { description: product.name });
             }}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 bg-terracotta border border-terracotta hover:bg-transparent hover:text-terracotta active:scale-95 cursor-pointer"
+            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-all duration-200 bg-terracotta border border-terracotta hover:bg-transparent hover:text-terracotta active:scale-95 cursor-pointer"
           >
-            <ShoppingBag className="size-3.5" />
+            <ShoppingBag className="size-3" />
             Add to Cart
           </button>
 
@@ -148,7 +169,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Order via WhatsApp"
-            className="flex items-center justify-center w-11 rounded-xl text-white transition-all duration-200 bg-[#25D366] border border-[#25D366] hover:bg-transparent hover:text-[#25D366] active:scale-95 shrink-0 cursor-pointer"
+            className="flex items-center justify-center w-11 rounded-full text-white transition-all duration-200 bg-[#25D366] border border-[#25D366] hover:bg-transparent hover:text-[#25D366] active:scale-95 shrink-0 cursor-pointer"
           >
             {WA_ICON}
           </a>

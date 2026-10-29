@@ -17,7 +17,7 @@ export const easeSlow = [0.16, 1, 0.3, 1] as const;
 export function FadeUp({
   children,
   delay = 0,
-  duration = 0.85,
+  duration = 1.15,
   y = 40,
   className,
   once = true,
@@ -49,7 +49,7 @@ export function FadeUp({
 export function FadeIn({
   children,
   delay = 0,
-  duration = 0.9,
+  duration = 1.2,
   className,
   once = true,
 }: {
@@ -80,8 +80,8 @@ const staggerContainer: Variants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.05,
+      staggerChildren: 0.13,
+      delayChildren: 0.07,
     },
   },
 };
@@ -92,7 +92,7 @@ const staggerItem: Variants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 1.0, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
@@ -159,7 +159,7 @@ export function SlideIn({
       className={className}
       initial={{ opacity: 0, x }}
       animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x }}
-      transition={{ duration: 0.9, delay, ease: easeSlow }}
+      transition={{ duration: 1.2, delay, ease: easeSlow }}
     >
       {children}
     </motion.div>
@@ -211,7 +211,7 @@ export function ScaleReveal({
       className={className}
       initial={{ opacity: 0, scale: 0.88 }}
       animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.88 }}
-      transition={{ duration: 1, delay, ease: easeSlow }}
+      transition={{ duration: 1.3, delay, ease: easeSlow }}
     >
       {children}
     </motion.div>

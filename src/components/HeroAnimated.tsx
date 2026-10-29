@@ -24,14 +24,43 @@ const DOT_ANGLES = [0, 45, 90, 135, 180, 225, 270, 315];
 function HeroCircle() {
   return (
     <div className="relative w-[420px] h-[420px]">
+      {/* Outer decorative ring (dashed) */}
+      <div
+        className="absolute -inset-6 rounded-full pointer-events-none"
+        style={{
+          border: "1px dashed rgba(160,120,48,0.22)",
+          animation: "spin-slow 60s linear infinite",
+        }}
+      />
+      {/* Corner dots on outer ring */}
+      {[0, 90, 180, 270].map((deg) => (
+        <div
+          key={deg}
+          className="absolute w-2 h-2 rounded-full pointer-events-none"
+          style={{
+            backgroundColor: "var(--gold)",
+            opacity: 0.45,
+            top: "50%",
+            left: "50%",
+            transformOrigin: "0 0",
+            transform: `rotate(${deg}deg) translateX(222px) translateY(-4px)`,
+          }}
+        />
+      ))}
       {/* Gold gradient ring */}
       <div
         className="absolute inset-0 rounded-full"
         style={{
-          background: "linear-gradient(135deg, var(--gold) 0%, var(--ivory) 60%, var(--terracotta) 100%)",
-          padding: "4px",
+          background: "linear-gradient(135deg, var(--gold) 0%, rgba(245,239,230,0.8) 50%, var(--terracotta) 100%)",
+          padding: "5px",
+          boxShadow: "0 0 40px rgba(160,120,48,0.18), inset 0 0 20px rgba(160,120,48,0.08)",
         }}
       >
+        {/* Inner ring accent */}
+        <div
+          className="absolute inset-[3px] rounded-full pointer-events-none z-10"
+          style={{ border: "1px solid rgba(160,120,48,0.25)" }}
+        />
         <div
           className="w-full h-full rounded-full overflow-hidden"
           style={{ backgroundColor: "var(--ivory)" }}
@@ -49,22 +78,46 @@ function HeroCircle() {
 
       {/* Floating badge top-left */}
       <motion.div
-        className="absolute -top-2 -left-4 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest"
-        style={{ backgroundColor: "var(--sienna)", color: "var(--ivory)", boxShadow: "0 4px 16px rgba(92,26,0,0.25)" }}
+        className="absolute -top-2 -left-5 px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] flex items-center gap-1.5"
+        style={{
+          backgroundColor: "var(--sienna)",
+          color: "var(--ivory)",
+          boxShadow: "0 4px 20px rgba(92,26,0,0.3), 0 1px 0 rgba(255,255,255,0.1) inset",
+          border: "1px solid rgba(255,255,255,0.08)",
+        }}
         animate={{ y: [0, -6, 0] }}
         transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
       >
-        Handcrafted ✦
+        <span style={{ color: "var(--gold)" }}>✦</span> Handcrafted
       </motion.div>
 
       {/* Floating badge bottom-right */}
       <motion.div
-        className="absolute -bottom-2 -right-4 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest"
-        style={{ backgroundColor: "var(--terracotta)", color: "var(--ivory)", boxShadow: "0 4px 16px rgba(181,83,42,0.3)" }}
+        className="absolute -bottom-2 -right-5 px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] flex items-center gap-1.5"
+        style={{
+          backgroundColor: "var(--terracotta)",
+          color: "var(--ivory)",
+          boxShadow: "0 4px 20px rgba(181,83,42,0.35), 0 1px 0 rgba(255,255,255,0.1) inset",
+          border: "1px solid rgba(255,255,255,0.08)",
+        }}
         animate={{ y: [0, 6, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
       >
-        Kolkata ✦
+        <span style={{ color: "#ffd599" }}>✦</span> Kolkata-Made
+      </motion.div>
+
+      {/* Floating product count badge */}
+      <motion.div
+        className="absolute -bottom-3 left-6 px-3 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-[0.15em]"
+        style={{
+          backgroundColor: "var(--gold)",
+          color: "var(--sienna)",
+          boxShadow: "0 4px 16px rgba(160,120,48,0.35)",
+        }}
+        animate={{ y: [0, -4, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+      >
+        27 Unique SKUs
       </motion.div>
     </div>
   );
@@ -87,19 +140,25 @@ export function HeroAnimated() {
   return (
     <section
       ref={containerRef}
-      className="relative overflow-hidden"
+      className="relative overflow-hidden grain-bg"
       style={{ minHeight: "calc(100vh - 4rem)", backgroundColor: "var(--cream)" }}
       aria-label="Hero"
     >
       {/* Ambient glows */}
       <div
         className="absolute top-0 left-0 w-[60vw] h-[60vh] pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 70% 60% at 20% 20%, rgba(160,120,48,0.10) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse 70% 60% at 20% 20%, rgba(160,120,48,0.13) 0%, transparent 70%)" }}
         aria-hidden="true"
       />
       <div
         className="absolute bottom-0 right-0 w-[50vw] h-[50vh] pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 60% 50% at 80% 80%, rgba(181,83,42,0.07) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse 60% 50% at 80% 80%, rgba(181,83,42,0.09) 0%, transparent 70%)" }}
+        aria-hidden="true"
+      />
+      {/* Additional warm center glow */}
+      <div
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3 w-[40vw] h-[40vh] pointer-events-none"
+        style={{ background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(245,220,180,0.12) 0%, transparent 70%)" }}
         aria-hidden="true"
       />
 
@@ -128,7 +187,7 @@ export function HeroAnimated() {
                 style={{ color: "var(--gold)" }}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.05, ease }}
+                transition={{ duration: 0.95, delay: 0.05, ease }}
               >
                 ✦ Handcrafted in Kolkata
               </motion.p>
@@ -138,7 +197,7 @@ export function HeroAnimated() {
                 style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--sienna)" }}
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 0.05 + stagger, ease }}
+                transition={{ duration: 1.2, delay: 0.05 + stagger, ease }}
               >
                 Light.<br />
                 Scent.<br />
@@ -150,7 +209,7 @@ export function HeroAnimated() {
                 style={{ color: "var(--mauve)" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 0.05 + stagger * 2, ease }}
+                transition={{ duration: 1.2, delay: 0.05 + stagger * 2, ease }}
               >
                 Handcrafted candles &amp; wax florals from Kolkata.
               </motion.p>
@@ -159,7 +218,7 @@ export function HeroAnimated() {
                 className="flex flex-wrap gap-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 0.05 + stagger * 3, ease }}
+                transition={{ duration: 1.2, delay: 0.05 + stagger * 3, ease }}
               >
                 <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
                   <Link
@@ -204,7 +263,7 @@ export function HeroAnimated() {
             className="hidden lg:flex w-full lg:w-[45%] justify-center lg:justify-end"
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, delay: 0.3, ease }}
+            transition={{ duration: 1.6, delay: 0.3, ease }}
             aria-hidden="true"
           >
             <HeroCircle />

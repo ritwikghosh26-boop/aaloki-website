@@ -46,19 +46,19 @@ function TrustBar() {
   const doubled = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
   return (
     <div
-      className="overflow-hidden py-3 border-y"
-      style={{ backgroundColor: "var(--cream)", borderColor: "rgba(160,120,48,0.2)" }}
+      className="overflow-hidden py-3.5 border-y relative"
+      style={{ backgroundColor: "var(--sienna)", borderColor: "rgba(160,120,48,0.3)" }}
       aria-label="Product categories"
     >
       <div className="flex whitespace-nowrap" style={{ animation: "marquee 40s linear infinite" }}>
         {doubled.map((item, i) => (
           <span
             key={i}
-            className="inline-flex items-center gap-2 px-6 text-[11px] font-bold shrink-0 uppercase tracking-[0.3em]"
+            className="inline-flex items-center gap-2.5 px-7 text-[10px] font-bold shrink-0 uppercase tracking-[0.32em]"
             style={{ color: "var(--gold)" }}
           >
-            <span aria-hidden="true">✦</span>
-            {item}
+            <span aria-hidden="true" className="text-[8px] opacity-60">✦</span>
+            <span style={{ color: "rgba(245,239,230,0.85)" }}>{item}</span>
           </span>
         ))}
       </div>
@@ -87,9 +87,9 @@ function OccasionsStrip() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeUp className="text-center mb-10">
-          <p className="text-[10px] font-bold tracking-[0.4em] uppercase mb-2" style={{ color: "var(--gold)" }}>Browse By</p>
+          <p className="text-[10px] font-bold tracking-[0.4em] uppercase mb-3 label-with-lines" style={{ color: "var(--gold)" }}>Browse By</p>
           <h2
-            className="text-3xl sm:text-4xl"
+            className="text-3xl sm:text-4xl heading-ornament"
             style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--sienna)" }}
           >
             Made for Every Occasion
@@ -132,11 +132,11 @@ function FeaturedProducts() {
     <section className="py-20 lg:py-28" style={{ backgroundColor: "var(--cream)" }} aria-label="Featured products">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeUp className="text-center max-w-xl mx-auto mb-12">
-          <p className="text-xs font-semibold tracking-[0.28em] uppercase mb-3" style={{ color: "var(--gold)" }}>Best Sellers</p>
-          <h2 className="text-4xl sm:text-5xl" style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--sienna)" }}>
+          <p className="text-[10px] font-bold tracking-[0.38em] uppercase mb-3 label-with-lines" style={{ color: "var(--gold)" }}>Best Sellers</p>
+          <h2 className="text-4xl sm:text-5xl heading-ornament" style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--sienna)" }}>
             Every piece, made by hand.
           </h2>
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
             Hand-poured in small batches, finished individually, and shipped with care from our Kolkata studio.
           </p>
         </FadeUp>
@@ -168,15 +168,37 @@ function FeaturedProducts() {
 function StoryBanner() {
   return (
     <div
-      className="py-10 text-center"
-      style={{ backgroundColor: "var(--cream)" }}
+      className="py-16 text-center grain-bg"
+      style={{ backgroundColor: "var(--ivory)", borderTop: "1px solid rgba(160,120,48,0.12)", borderBottom: "1px solid rgba(160,120,48,0.12)" }}
     >
-      <p
-        className="text-2xl sm:text-3xl italic max-w-3xl mx-auto px-6"
-        style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--sienna)", opacity: 0.65 }}
-      >
-        &ldquo;Every candle carries a prayer. Every fragrance, a memory.&rdquo;
-      </p>
+      <div className="max-w-3xl mx-auto px-6 relative">
+        {/* Decorative large quotation mark */}
+        <div
+          className="absolute -top-2 left-1/2 -translate-x-1/2 leading-none select-none pointer-events-none"
+          style={{
+            fontFamily: "var(--font-display), Georgia, serif",
+            fontSize: "clamp(5rem, 10vw, 8rem)",
+            color: "var(--gold)",
+            opacity: 0.1,
+            lineHeight: 1,
+          }}
+          aria-hidden="true"
+        >
+          &ldquo;
+        </div>
+        <p
+          className="text-2xl sm:text-[1.85rem] italic leading-relaxed relative z-10"
+          style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--sienna)", opacity: 0.72 }}
+        >
+          Every candle carries a prayer. Every fragrance, a memory.
+        </p>
+        <p
+          className="mt-4 text-[11px] font-semibold tracking-[0.28em] uppercase"
+          style={{ color: "var(--gold)" }}
+        >
+          — Riccha Ghosh, Founder
+        </p>
+      </div>
     </div>
   );
 }
@@ -247,7 +269,7 @@ function RicchaStory() {
           </SlideIn>
 
           <SlideIn direction="right" delay={0.15} className="max-w-lg order-1 lg:order-2">
-            <p className="text-xs font-semibold tracking-[0.28em] uppercase mb-4" style={{ color: "var(--gold)" }}>Our Story</p>
+            <p className="text-[10px] font-bold tracking-[0.38em] uppercase mb-4 label-with-lines heading-ornament-left" style={{ color: "var(--gold)" }}>Our Story</p>
             <h2
               className="text-3xl sm:text-4xl lg:text-[2.75rem] leading-snug mb-6"
               style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--sienna)" }}
@@ -312,8 +334,8 @@ function GiftSetsPreview() {
     <section className="py-20 lg:py-28" style={{ backgroundColor: "var(--cream)" }} aria-label="Gift sets">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeUp className="text-center max-w-xl mx-auto mb-12">
-          <p className="text-xs font-semibold tracking-[0.28em] uppercase mb-3" style={{ color: "var(--gold)" }}>Gift With Intention</p>
-          <h2 className="text-4xl sm:text-5xl" style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--sienna)" }}>
+          <p className="text-[10px] font-bold tracking-[0.38em] uppercase mb-3 label-with-lines" style={{ color: "var(--gold)" }}>Gift With Intention</p>
+          <h2 className="text-4xl sm:text-5xl heading-ornament" style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--sienna)" }}>
             Give the gift of light.
           </h2>
           <p className="mt-4 text-sm text-muted-foreground">
@@ -400,8 +422,8 @@ function WhyAaloki() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeUp className="text-center max-w-xl mx-auto mb-16">
-          <p className="text-[10px] font-bold tracking-[0.4em] uppercase mb-3" style={{ color: "var(--gold)" }}>The Aaloki Difference</p>
-          <h2 className="text-4xl sm:text-5xl" style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--sienna)" }}>
+          <p className="text-[10px] font-bold tracking-[0.4em] uppercase mb-3 label-with-lines" style={{ color: "var(--gold)" }}>The Aaloki Difference</p>
+          <h2 className="text-4xl sm:text-5xl heading-ornament" style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--sienna)" }}>
             Why customers choose us.
           </h2>
         </FadeUp>
@@ -410,11 +432,13 @@ function WhyAaloki() {
             <StaggerItem key={num}>
               <div className="space-y-5">
                 <span
-                  className="block text-5xl italic leading-none"
+                  className="block italic leading-none"
                   style={{
                     fontFamily: "var(--font-display), Georgia, serif",
+                    fontSize: "clamp(3rem, 5vw, 4.5rem)",
                     color: "var(--gold)",
-                    opacity: 0.35,
+                    opacity: 0.28,
+                    letterSpacing: "-0.02em",
                   }}
                 >
                   {num}
@@ -451,8 +475,8 @@ function Testimonials() {
     <section className="py-20 lg:py-28" style={{ backgroundColor: "var(--cream)" }} aria-label="Customer reviews">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeUp className="text-center max-w-xl mx-auto mb-12">
-          <p className="text-xs font-semibold tracking-[0.28em] uppercase mb-3" style={{ color: "var(--gold)" }}>Happy Customers</p>
-          <h2 className="text-4xl sm:text-5xl" style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--sienna)" }}>
+          <p className="text-[10px] font-bold tracking-[0.38em] uppercase mb-3 label-with-lines" style={{ color: "var(--gold)" }}>Happy Customers</p>
+          <h2 className="text-4xl sm:text-5xl heading-ornament" style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--sienna)" }}>
             Loved across India.
           </h2>
         </FadeUp>
@@ -460,7 +484,7 @@ function Testimonials() {
           {TESTIMONIALS.map((t) => (
             <StaggerItem key={t.name}>
               <Tilt3D className="h-full" intensity={8}>
-                <blockquote className="flex flex-col p-6 rounded-2xl h-full" style={{ backgroundColor: "var(--ivory)" }}>
+                <blockquote className="flex flex-col p-6 rounded-2xl h-full card-top-accent" style={{ backgroundColor: "var(--ivory)", boxShadow: "0 2px 12px rgba(92,26,0,0.05)" }}>
                   <div className="flex gap-0.5" aria-label={`${t.rating} out of 5 stars`}>
                     {Array.from({ length: t.rating }).map((_, i) => (
                       <span key={i} style={{ color: "#F59E0B" }} aria-hidden="true">★</span>
@@ -494,7 +518,7 @@ function Testimonials() {
 function WhatsAppCTABanner() {
   return (
     <section
-      className="relative overflow-hidden py-20 lg:py-24"
+      className="relative overflow-hidden py-20 lg:py-24 grain-bg"
       style={{ background: "linear-gradient(135deg, #B5532A 0%, #8B3B1A 50%, #5C1A00 100%)" }}
       aria-label="Order on WhatsApp"
     >

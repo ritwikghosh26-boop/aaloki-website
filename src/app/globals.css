@@ -197,6 +197,20 @@ html {
   100% { transform: scale(1.4); opacity: 0; }
 }
 
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes floatUpDown {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+.spin-slow {
+  animation: spin-slow 60s linear infinite;
+}
+
 /* ── Hover shimmer on CTA buttons ── */
 .btn-shimmer {
   position: relative;
@@ -248,5 +262,79 @@ html {
   .scrollbar-hide::-webkit-scrollbar,
   .no-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+
+  /* ── Premium grain texture overlay ── */
+  .grain-bg {
+    position: relative;
+    isolation: isolate;
+  }
+  .grain-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.042;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 250px 250px;
+    background-repeat: repeat;
+  }
+
+  /* ── Gold shimmer gradient text ── */
+  .text-gold-shimmer {
+    background: linear-gradient(
+      120deg,
+      var(--gold) 0%,
+      #d4a94e 30%,
+      var(--gold) 60%,
+      #c49a3a 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Section label with flanking lines ── */
+  .label-with-lines {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .label-with-lines::before,
+  .label-with-lines::after {
+    content: "";
+    display: block;
+    height: 1px;
+    width: 2rem;
+    background: var(--gold);
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  /* ── Premium card border top accent ── */
+  .card-top-accent {
+    border-top: 2px solid rgba(160, 120, 48, 0.28);
+  }
+
+  /* ── Gold ornament line under headings ── */
+  .heading-ornament {
+    position: relative;
+    padding-bottom: 1.25rem;
+  }
+  .heading-ornament::after {
+    content: "✦";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+  .heading-ornament-left::after {
+    left: 0;
+    transform: none;
   }
 }
